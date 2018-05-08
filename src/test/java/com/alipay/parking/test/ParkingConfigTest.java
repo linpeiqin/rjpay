@@ -18,7 +18,6 @@ import com.alipay.parking.service.integration.IAlipayConfig;
 public class ParkingConfigTest extends BaseTest {
     @Resource
     private IAlipayConfig iAlipayConfig;
-
     @Test
     public void configSet() throws UnsupportedEncodingException {
         Map<String, String> params = new HashMap<String, String>();
@@ -27,11 +26,8 @@ public class ParkingConfigTest extends BaseTest {
         params.put("account_no", "linking1231");
         params.put("merchant_logo", "");
         params.put("interface_url", URLEncoder.encode("https://139.196.175.54:9091","UTF-8"));//链接转码
-
-       String  returnVal =  iAlipayConfig.configSet(params);
-       System.out.println(returnVal);
+       iAlipayConfig.configSet(params);
     }
-    @Test
     public void configQuery() {
         iAlipayConfig.configQuery(null);
     }

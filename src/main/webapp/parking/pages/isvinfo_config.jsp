@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-xs-12 col-md-12 col-lg-12">
 				<div class="well with-footer">
-                    <form:form modelAttribute="aliResponse" method="post" class="form-horizontal" role="form">
+                    <form:form modelAttribute="aliResponse" method="post" class="form-horizontal" role="form" action="${ctx}/parkingconfig/configset">
                         <div class="col-xs-12 bordered-bottom bordered-blue coupon_diaTitle"><span class="fa fa-circle"></span>商户信息</div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right">

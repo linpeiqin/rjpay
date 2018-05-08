@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alipay.api.response.AlipayEcoMycarParkingConfigQueryResponse;
+import com.alipay.api.response.AlipayEcoMycarParkingConfigSetResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.alipay.parking.service.integration.IAlipayConfig;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author liuzhuang
@@ -31,10 +31,19 @@ public class ParkingConfigController extends baseController {
      * @param response
      * @return
      */
-    @RequestMapping("/configset")
-    public String configSet(HttpServletRequest request, HttpServletResponse response , Model model) {
+    @RequestMapping(value = "/configset")
+    public String configSet(HttpServletRequest request, HttpServletResponse response , @ModelAttribute("aliResponse") AlipayEcoMycarParkingConfigQueryResponse aliResponse) {
         Map<String, String> params = super.getParametersFromPage(request);
-        String isSuccess = iAlipayConfig.configSet(params);
+        AlipayEcoMycarParkingConfigSetResponse alipayEcoMycarParkingConfigSetResponse = iAlipayConfig.configSet(params);
+        if (alipayEcoMycarParkingConfigSetResponse==null){
+            request.setAttribute("msg","出现异常联系管理员");
+            return "error";
+        }
+        if (!alipayEcoMycarParkingConfigSetResponse.isSuccess()){
+            String msg = alipayEcoMycarParkingConfigSetResponse.getSubMsg();
+            request.setAttribute("msg",msg);
+            return "error";
+        }
         return "isvinfo_config";
     }
 
@@ -48,6 +57,15 @@ public class ParkingConfigController extends baseController {
     public String configQuery(HttpServletRequest request, HttpServletResponse response,Model model) {
         Map<String, String> params = super.getParametersFromPage(request);
         AlipayEcoMycarParkingConfigQueryResponse aliResponse = iAlipayConfig.configQuery(params);
+        if (aliResponse==null){
+            request.setAttribute("msg","出现异常联系管理员");
+            return "error";
+        }
+        if (!aliResponse.isSuccess()){
+            String msg = aliResponse.getSubMsg();
+            request.setAttribute("msg",msg);
+            return "error";
+        }
         model.addAttribute("aliResponse",aliResponse);
         return "isvinfo_config";
     }

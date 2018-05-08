@@ -1,5 +1,7 @@
 package com.alipay.parking.service.integration.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,29 +31,20 @@ public class AlipayConfigImpl implements IAlipayConfig {
 	@Resource(name = "aliPayUtil")
 	private AliPayUtil aliPayUtil;
 
-	public String configSet(Map<String, String> params) {
-		String isSuccess = "false";
+	public AlipayEcoMycarParkingConfigSetResponse configSet(Map<String, String> params) {
 		try {
 			AlipayClient alipayClient = aliPayUtil.getInstance();
 			AlipayEcoMycarParkingConfigSetRequest request = new AlipayEcoMycarParkingConfigSetRequest();
 			// SDK已经封装掉了公共参数，这里只需要传入业务参数
 			// 此次只是参数展示，未进行字符串转义，实际情况下请转义
-			request.setBizContent(processParams(params, "1"));// 业务数据
+			request.setBizContent(processParams(params, "4"));// 业务数据
 			AlipayEcoMycarParkingConfigSetResponse response = alipayClient.execute(request);
 			// 判断调用是否成功
-			if (response.isSuccess()) {
-				// 获取相应数据
-				Map<String, String> responseParams = response.getParams();
-				// 通过返回数据进行业务处理，可以通过responseParams获取到返回的键值数据
-				isSuccess = "true";
-			} else {
-				// 调用失败处理逻辑
-			}
-
+			return response;
 		} catch (AlipayApiException e) {
 			e.printStackTrace();
 		}
-		return isSuccess;
+		return null;
 	}
 
 	private String processParams(Map<String, String> param, String type) {
@@ -106,8 +99,28 @@ public class AlipayConfigImpl implements IAlipayConfig {
 			params.put("contact_alipay", "");// 联系人支付宝账号 非必填
 			params.put("parking_name", param.get("parking_name"));// 停车场名称
 			params.put("time_out", "");// 支付超时时间 非必填
-		} else {
+		} else if ("4".equals(type)) {
 			// 修改停车场
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("merchant_name", param.get("merchantName"));
+			params.put("merchant_service_phone", param.get("merchantServicePhone"));
+			params.put("account_no", param.get("accountNo"));
+			params.put("merchant_logo", param.get("merchantLogo"));
+			List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+			Map<String, String> arrMap = new HashMap<String, String>();
+			arrMap.put("interface_name", "alipay.eco.mycar.parking.userpage.query");
+			arrMap.put("interface_type", "interface_page");
+			String interfaceUrl = param.get("interfaceInfoList.interfaceUrl");
+			try {
+				arrMap.put("interface_url", URLEncoder.encode(interfaceUrl,"UTF-8"));// 链接转码
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			list.add(arrMap);
+
+			params.put("interface_info_list", JSON.toJSONString(list));
+
+			map2Json = JSON.toJSONString(params);
 			// TODO
 		}
 
@@ -124,13 +137,7 @@ public class AlipayConfigImpl implements IAlipayConfig {
 			request.setBizContent(processParams(null, "2"));// 业务数据
 			AlipayEcoMycarParkingConfigQueryResponse response = alipayClient.execute(request);
 			// 判断调用是否成功
-			if (response.isSuccess()) {
-				// 通过返回数据进行业务处理，可以通过responseParams获取到返回的键值数据
-				return response;
-			} else {
-				// 调用失败处理逻辑
-				return null;
-			}
+			return response;
 		} catch (AlipayApiException e) {
 			// 调用异常逻辑处理
 			e.printStackTrace();

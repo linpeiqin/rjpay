@@ -44,6 +44,7 @@ public class ParkingTest extends BaseTest {
     /**
      * 车牌查询Test
      */
+
     public void vehicleQuery() {
         Map<String, String> params = new HashMap<String, String>();
 
