@@ -15,10 +15,10 @@
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
-			<value>/parking/pages/</value>
+			<value>/pages/</value>
 		</property>
 		<property name="suffix">
-			<value>.html</value>
+			<value>.jsp</value>
 		</property>
 	</bean>
 	<mvc:annotation-driven />
