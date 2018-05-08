@@ -114,8 +114,7 @@ public class AlipayConfigImpl implements IAlipayConfig {
 		return map2Json;
 	}
 
-	public String configQuery(Map<String, String> params) {
-		String returnMsg = "";
+	public AlipayEcoMycarParkingConfigQueryResponse configQuery(Map<String, String> params) {
 		try {
 			AlipayClient alipayClient = aliPayUtil.getInstance();
 			// 实例化具体API对应的request类,类名称和接口名称对应,
@@ -126,18 +125,17 @@ public class AlipayConfigImpl implements IAlipayConfig {
 			AlipayEcoMycarParkingConfigQueryResponse response = alipayClient.execute(request);
 			// 判断调用是否成功
 			if (response.isSuccess()) {
-				// 获取相应数据
-				Map<String, String> responseParams = response.getParams();
 				// 通过返回数据进行业务处理，可以通过responseParams获取到返回的键值数据
-				returnMsg = JSON.toJSONString(responseParams);
+				return response;
 			} else {
 				// 调用失败处理逻辑
+				return null;
 			}
 		} catch (AlipayApiException e) {
 			// 调用异常逻辑处理
 			e.printStackTrace();
 		}
-		return returnMsg;
+		return null;
 	}
 
 	public String parkingCreate(Map<String, String> params) {

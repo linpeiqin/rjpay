@@ -6,10 +6,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alipay.api.response.AlipayEcoMycarParkingConfigQueryResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alipay.parking.service.integration.IAlipayConfig;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author liuzhuang
@@ -29,10 +32,10 @@ public class ParkingConfigController extends baseController {
      * @return
      */
     @RequestMapping("/configset")
-    public String configSet(HttpServletRequest request, HttpServletResponse response) {
+    public String configSet(HttpServletRequest request, HttpServletResponse response , Model model) {
         Map<String, String> params = super.getParametersFromPage(request);
         String isSuccess = iAlipayConfig.configSet(params);
-        return isSuccess;
+        return "isvinfo_config";
     }
 
     /**
@@ -42,10 +45,11 @@ public class ParkingConfigController extends baseController {
      * @return
      */
     @RequestMapping("/configquery")
-    public String configQuery(HttpServletRequest request, HttpServletResponse response) {
+    public String configQuery(HttpServletRequest request, HttpServletResponse response,Model model) {
         Map<String, String> params = super.getParametersFromPage(request);
-        String returnMsg = iAlipayConfig.configSet(params);
-        return returnMsg;
+        AlipayEcoMycarParkingConfigQueryResponse aliResponse = iAlipayConfig.configQuery(params);
+        model.addAttribute("aliResponse",aliResponse);
+        return "isvinfo_config";
     }
 
     /**
