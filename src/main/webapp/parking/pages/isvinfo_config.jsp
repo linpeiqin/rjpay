@@ -78,7 +78,7 @@
                                 <span class="red">*</span>缴费链接：
                             </label>
                             <div class="col-sm-3">
-                                <form:input path="interfaceInfoList.interfaceUrl" name="interfaceUrl" id="interfaceUrl" placeholder="请输入缴费链接" class="form-control"/>
+                                <form:input path="interfaceInfoList[0].interfaceUrl" name="interfaceUrl" id="interfaceUrl" placeholder="请输入缴费链接" class="form-control"/>
                             </div>
                             <div class="col-sm-3">
                             </div>

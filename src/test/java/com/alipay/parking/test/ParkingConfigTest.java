@@ -20,13 +20,13 @@ public class ParkingConfigTest extends BaseTest {
     private IAlipayConfig iAlipayConfig;
     @Test
     public void configSet() throws UnsupportedEncodingException {
-        Map<String, String> params = new HashMap<String, String>();
+     /*   Map<String, String> params = new HashMap<String, String>();
         params.put("merchant_name", "linking");
         params.put("merchant_service_phone", "18802058397");
         params.put("account_no", "linking1231");
         params.put("merchant_logo", "");
         params.put("interface_url", URLEncoder.encode("https://139.196.175.54:9091","UTF-8"));//链接转码
-       iAlipayConfig.configSet(params);
+       iAlipayConfig.configSet(params);*/
     }
     public void configQuery() {
         iAlipayConfig.configQuery(null);

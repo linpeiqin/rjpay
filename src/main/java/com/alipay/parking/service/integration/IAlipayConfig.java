@@ -2,6 +2,7 @@ package com.alipay.parking.service.integration;
 
 import com.alipay.api.response.AlipayEcoMycarParkingConfigQueryResponse;
 import com.alipay.api.response.AlipayEcoMycarParkingConfigSetResponse;
+import com.alipay.parking.modols.ParkingConfigQueryResponse;
 
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public interface IAlipayConfig {
      * @param params
      * @return
      */
-    public AlipayEcoMycarParkingConfigQueryResponse configQuery(Map<String,String> params);
+    public ParkingConfigQueryResponse configQuery(Map<String,String> params);
     
     /**
      * 创建停车场

@@ -5,7 +5,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<artifactId>rjpay</artifactId>
 	<packaging>war</packaging>
-
+	<properties>
+		<webserver.port>8080</webserver.port>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -135,13 +138,13 @@
 		<finalName>rjpay</finalName>
 		<resources>
 			<!--表示把java目录下的有关xml文件,properties文件编译/打包的时候放在resource目录下-->
-	<!--		<resource>
+			<resource>
 				<directory>${basedir}/src/main/java</directory>
 				<includes>
 					<include>**/*.properties</include>
 					<include>**/*.xml</include>
 				</includes>
-			</resource>-->
+			</resource>
 			<resource>
 				<directory>${basedir}/src/main/resources</directory>
 			</resource>

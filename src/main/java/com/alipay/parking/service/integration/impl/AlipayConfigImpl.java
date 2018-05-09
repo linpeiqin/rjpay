@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.alipay.parking.modols.ParkingConfigQueryRequest;
+import com.alipay.parking.modols.ParkingConfigQueryResponse;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -39,6 +41,9 @@ public class AlipayConfigImpl implements IAlipayConfig {
 			// 此次只是参数展示，未进行字符串转义，实际情况下请转义
 			request.setBizContent(processParams(params, "4"));// 业务数据
 			AlipayEcoMycarParkingConfigSetResponse response = alipayClient.execute(request);
+            if (response.isSuccess()){
+                response.getBody();
+            }
 			// 判断调用是否成功
 			return response;
 		} catch (AlipayApiException e) {
@@ -110,7 +115,7 @@ public class AlipayConfigImpl implements IAlipayConfig {
 			Map<String, String> arrMap = new HashMap<String, String>();
 			arrMap.put("interface_name", "alipay.eco.mycar.parking.userpage.query");
 			arrMap.put("interface_type", "interface_page");
-			String interfaceUrl = param.get("interfaceInfoList.interfaceUrl");
+			String interfaceUrl = param.get("interfaceInfoList[0].interfaceUrl");
 			try {
 				arrMap.put("interface_url", URLEncoder.encode(interfaceUrl,"UTF-8"));// 链接转码
 			} catch (UnsupportedEncodingException e) {
@@ -127,15 +132,15 @@ public class AlipayConfigImpl implements IAlipayConfig {
 		return map2Json;
 	}
 
-	public AlipayEcoMycarParkingConfigQueryResponse configQuery(Map<String, String> params) {
+	public ParkingConfigQueryResponse configQuery(Map<String, String> params) {
 		try {
 			AlipayClient alipayClient = aliPayUtil.getInstance();
 			// 实例化具体API对应的request类,类名称和接口名称对应,
-			AlipayEcoMycarParkingConfigQueryRequest request = new AlipayEcoMycarParkingConfigQueryRequest();
+			ParkingConfigQueryRequest request = new ParkingConfigQueryRequest();
 			// SDK已经封装掉了公共参数，这里只需要传入业务参数
 			// 此次只是参数展示，未进行字符串转义，实际情况下请转义
 			request.setBizContent(processParams(null, "2"));// 业务数据
-			AlipayEcoMycarParkingConfigQueryResponse response = alipayClient.execute(request);
+            ParkingConfigQueryResponse response = alipayClient.execute(request);
 			// 判断调用是否成功
 			return response;
 		} catch (AlipayApiException e) {

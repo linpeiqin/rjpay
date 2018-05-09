@@ -214,16 +214,6 @@
 		
 	</script>
 
-
-
-</script> 
-
-
-
- 
-
-
-
 </body>
 <!--  /Body -->
 </html>

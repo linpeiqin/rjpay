@@ -1,5 +1,7 @@
 package com.alipay.parking.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alipay.api.response.AlipayEcoMycarParkingConfigQueryResponse;
 import com.alipay.api.response.AlipayEcoMycarParkingConfigSetResponse;
+import com.alipay.parking.modols.ParkingConfigQueryResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +35,7 @@ public class ParkingConfigController extends baseController {
      * @return
      */
     @RequestMapping(value = "/configset")
-    public String configSet(HttpServletRequest request, HttpServletResponse response , @ModelAttribute("aliResponse") AlipayEcoMycarParkingConfigQueryResponse aliResponse) {
+    public String configSet(HttpServletRequest request, HttpServletResponse response , @ModelAttribute("aliResponse") ParkingConfigQueryResponse aliResponse) {
         Map<String, String> params = super.getParametersFromPage(request);
         AlipayEcoMycarParkingConfigSetResponse alipayEcoMycarParkingConfigSetResponse = iAlipayConfig.configSet(params);
         if (alipayEcoMycarParkingConfigSetResponse==null){
@@ -54,9 +57,9 @@ public class ParkingConfigController extends baseController {
      * @return
      */
     @RequestMapping("/configquery")
-    public String configQuery(HttpServletRequest request, HttpServletResponse response,Model model) {
+    public String configQuery(HttpServletRequest request, HttpServletResponse response,Model model) throws UnsupportedEncodingException {
         Map<String, String> params = super.getParametersFromPage(request);
-        AlipayEcoMycarParkingConfigQueryResponse aliResponse = iAlipayConfig.configQuery(params);
+        ParkingConfigQueryResponse aliResponse = iAlipayConfig.configQuery(params);
         if (aliResponse==null){
             request.setAttribute("msg","出现异常联系管理员");
             return "error";
@@ -66,6 +69,7 @@ public class ParkingConfigController extends baseController {
             request.setAttribute("msg",msg);
             return "error";
         }
+        aliResponse.getInterfaceInfoList().get(0).setInterfaceUrl(URLDecoder.decode(aliResponse.getInterfaceInfoList().get(0).getInterfaceUrl(),"UTF-8") );
         model.addAttribute("aliResponse",aliResponse);
         return "isvinfo_config";
     }
