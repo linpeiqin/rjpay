@@ -23,7 +23,7 @@ public class ParkingTest extends BaseTest {
     public void carIn() {
         Map<String, String> params = new HashMap<String, String>();
 
-        params.put("parking_id", "PI1486347449056133245");
+        params.put("parking_id", "PI1525940089921464233");
         params.put("car_number", "冀B851LP");
 
         iAlipayParking.carEnterInfo(params);
@@ -32,10 +32,11 @@ public class ParkingTest extends BaseTest {
     /**
      * 车辆出场Test
      */
+    @Test
     public void carOut() {
         Map<String, String> params = new HashMap<String, String>();
 
-        params.put("parking_id", "PI1486347449056133245");
+        params.put("parking_id", "PI1525940089921464233");
         params.put("car_number", "冀B851LP");
 
         iAlipayParking.carExitInfo(params);

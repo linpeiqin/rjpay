@@ -28,6 +28,19 @@ public class ParkingConfigController extends baseController {
     @Resource
     private IAlipayConfig iAlipayConfig; // 对内数据
 
+
+    /**
+     * 用户界面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/userpage/query")
+    public String query(HttpServletRequest request, HttpServletResponse response) {
+        request.getAttribute("");
+        return "isvinfo_config";
+    }
+
     /**
      * 商户信息配置
      * @param request
